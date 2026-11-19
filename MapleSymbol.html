@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maple Symbol</title>
+<meta name="theme-color" content="#fbd7e6">
+<style>
+:root {
+	--paper: #fff1f6;
+	--surface: #fffafc;
+	--band: #fbd7e6;
+	--line: #f6d3e2;
+	--pink: #f28cb4;
+	--pink-deep: #b3407a;
+	--lilac: #d9c8ec;
+	--ink: #4a2c42;
+	--muted: #86677a;
+	--ring: rgba(179, 64, 122, .35);
+	color-scheme: light;
+}
+* {
+	box-sizing: border-box;
+}
+body {
+	margin: 0;
+	color: var(--ink);
+	font: 16px/1.55 "Pretendard", "Malgun Gothic", "Apple SD Gothic Neo", system-ui, sans-serif;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	background-color: var(--paper);
+	background-image: radial-gradient(circle at 12% 28%, rgba(217, 200, 236, .35) 0 18px, transparent 19px), radial-gradient(circle at 88% 18%, rgba(242, 140, 180, .18) 0 34px, transparent 35px), radial-gradient(circle at 78% 72%, rgba(217, 200, 236, .30) 0 24px, transparent 25px), radial-gradient(circle at 6% 82%, rgba(242, 140, 180, .16) 0 42px, transparent 43px);
+	background-attachment: fixed;
+}
+main {
+	flex: 1;
+}
+.wrap {
+	width: 100%;
+	max-width: 1160px;
+	margin: 0 auto;
+	padding: 0 16px;
+}
+.hidden {
+	display: none!important;
+}
+a {
+	color: var(--pink-deep);
+}
+.app-header {
+	background: linear-gradient(var(--band) calc(100% - 17px), transparent calc(100% - 17px));
+}
+.logo-btn {
+	display: inline-flex;
+	align-items: center;
+	gap: .7rem;
+	background: none;
+	border: 0;
+	color: var(--ink);
+	padding: .8rem 0 .5rem;
+	cursor: pointer;
+	font: inherit;
+}
+.orb {
+	display: block;
+	width: 48px;
+	height: 48px;
+	filter: drop-shadow(0 3px 0 rgba(179, 64, 122, .28));
+	transition: transform .15s ease, filter .15s ease;
+}
+.logo-btn:hover .orb {
+	transform: translateY(-2px) scale(1.06);
+	filter: drop-shadow(0 5px 0 rgba(179, 64, 122, .28));
+}
+.logo-btn:active .orb {
+	transform: translateY(1px) scale(.97);
+}
+.logo-btn:focus-visible {
+	outline: 3px solid var(--ring);
+	outline-offset: 4px;
+	border-radius: 999px;
+}
+.wave {
+	display: block;
+	width: 100%;
+	height: 18px;
+	color: var(--band);
+	margin-bottom: -1px;
+}
+main.wrap {
+	padding-top: 1.25rem;
+	padding-bottom: 1.5rem;
+}
+.page-title {
+	font-size: 1.4rem;
+	font-weight: 800;
+	letter-spacing: -.02em;
+	margin: 0 0 .25rem;
+}
+.page-desc {
+	color: var(--muted);
+	margin: 0 0 1.25rem;
+}
+button, input {
+	font: inherit;
+	color: inherit;
+}
+.btn {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: .4rem;
+	padding: .4rem 1rem;
+	border-radius: 999px;
+	border: 2px solid var(--pink);
+	background: var(--surface);
+	color: var(--pink-deep);
+	cursor: pointer;
+	line-height: 1.5;
+	font-weight: 600;
+	box-shadow: 0 3px 0 var(--line);
+	transition: transform .08s, box-shadow .08s, background-color .15s;
+}
+.btn:hover {
+	background: var(--band);
+}
+.btn:active {
+	transform: translateY(2px);
+	box-shadow: 0 1px 0 var(--line);
+}
+.btn:focus-visible, .link-btn:focus-visible {
+	outline: 3px solid var(--ring);
+	outline-offset: 2px;
+}
+.btn:disabled {
+	opacity: .6;
+	cursor: default;
+}
+.btn-sm {
+	padding: .12rem .8rem;
+	font-size: .9rem;
+}
+.btn-maple {
+	background: var(--pink);
+	color: var(--ink);
+	font-weight: 800;
+	box-shadow: 0 3px 0 var(--pink-deep);
+}
+.btn-maple:hover {
+	background: #f77fac;
+}
+.link-btn {
+	background: none;
+	border: 0;
+	padding: 0;
+	color: var(--pink-deep);
+	text-decoration: underline;
+	cursor: pointer;
+}
+.input-group {
+	display: flex;
+	gap: .5rem;
+	flex-wrap: wrap;
+}
+.input-group .form-control {
+	flex: 1 1 14rem;
+}
+.form-control {
+	background: #fff;
+	border: 2px solid var(--pink);
+	padding: .4rem 1rem;
+	border-radius: 999px;
+	min-width: 0;
+}
+.form-control:focus {
+	outline: none;
+	box-shadow: 0 0 0 .25rem var(--ring);
+}
+textarea.form-control {
+	width: 100%;
+	border-radius: 16px;
+	font: .85rem/1.4 ui-monospace, Consolas, monospace;
+}
+input[type=checkbox] {
+	accent-color: var(--pink-deep);
+	width: 1.05rem;
+	height: 1.05rem;
+	margin: 0;
+}
+.spinner {
+	width: 1rem;
+	height: 1rem;
+	border: 2px solid currentColor;
+	border-right-color: transparent;
+	border-radius: 50%;
+	animation: spin .7s linear infinite;
+}
+@keyframes spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
+.key-panel, .summary, .empty-state, .table-scroll {
+	background: var(--surface);
+	border: 2px solid var(--line);
+	border-bottom-width: 5px;
+	border-radius: 24px;
+}
+.key-panel {
+	padding: 1.1rem 1.4rem;
+	margin-bottom: 1.25rem;
+}
+.key-label {
+	display: block;
+	font-weight: 700;
+	margin-bottom: .5rem;
+}
+.key-remember {
+	display: flex;
+	align-items: center;
+	gap: .5rem;
+	margin-top: .75rem;
+	font-size: .9rem;
+}
+.key-help {
+	color: var(--muted);
+	font-size: .85rem;
+	margin: .5rem 0 0;
+}
+details {
+	margin-top: .75rem;
+	font-size: .9rem;
+}
+summary {
+	cursor: pointer;
+	color: var(--pink-deep);
+	font-weight: 700;
+}
+details ol, details p {
+	margin: .5rem 0 0;
+	color: var(--muted);
+}
+details ol {
+	padding-left: 1.25rem;
+}
+code {
+	background: var(--band);
+	border-radius: 6px;
+	padding: 0 .35rem;
+	font-size: .85em;
+}
+.alert {
+	border: 2px solid var(--line);
+	border-radius: 18px;
+	padding: .75rem 1.1rem;
+	margin-bottom: 1.25rem;
+	background: var(--surface);
+}
+.alert-danger {
+	background: #ffe3ee;
+	border-color: var(--pink);
+}
+.empty-state {
+	border-style: dashed;
+	border-bottom-width: 2px;
+	padding: 2rem 1rem;
+	text-align: center;
+}
+.empty-state p {
+	margin: 0;
+}
+.empty-state p+p {
+	color: var(--muted);
+	margin-top: .25rem;
+}
+.toolbar {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: .6rem;
+	gap: .5rem;
+	flex-wrap: wrap;
+}
+.toolbar h2 {
+	font-size: 1.05rem;
+	font-weight: 800;
+	margin: 0;
+}
+.char-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, 11.5rem);
+	gap:.6rem .5rem;
+	margin-bottom: 1.25rem;
+}
+.char-btn {
+	width: 11.5rem;
+	height: 4.6rem;
+	flex-direction: column;
+	align-items: flex-start;
+	justify-content: center;
+	gap: 0;
+	border-radius: 18px;
+	padding: .3rem .9rem;
+	text-align: left;
+	line-height: 1.35;
+	overflow: hidden;
+}
+.char-btn span, .char-btn small {
+	display: block;
+	max-width: 100%;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.char-btn span {
+	font-weight: 800;
+}
+.char-btn small {
+	font-weight: 500;
+	color: var(--muted);
+	font-size: .75rem;
+}
+.char-btn.active {
+	background: var(--pink);
+	color: var(--ink);
+	box-shadow: 0 3px 0 var(--pink-deep);
+}
+.char-btn.active small {
+	color: var(--ink);
+}
+.summary {
+	padding: 1.4rem 1.6rem;
+	margin-bottom: 1.25rem;
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-end;
+	gap: 1.5rem;
+	flex-wrap: wrap;
+}
+.summary-label {
+	color: var(--muted);
+	font-size: .9rem;
+	font-weight: 600;
+}
+.big {
+	font-size: clamp(1.4rem, 4vw, 1.9rem);
+	font-weight: 800;
+	line-height: 1.2;
+	letter-spacing: -.01em;
+	font-variant-numeric: tabular-nums;
+	color: var(--pink-deep);
+}
+.summary-side {
+	display: flex;
+	gap: 1.75rem;
+	margin: 0;
+	flex-wrap: wrap;
+}
+.summary-side dt {
+	color: var(--muted);
+	font-size: .85rem;
+	font-weight: 600;
+}
+.summary-side dd {
+	margin: 0;
+	font-size: 1.1rem;
+	font-weight: 800;
+}
+.table-scroll {
+	overflow-x: auto;
+}
+.tbl {
+	width: 100%;
+	border-collapse: separate;
+	border-spacing: 0;
+	font-variant-numeric: tabular-nums;
+}
+.tbl {
+	font-size: .85rem;
+}
+.tbl th, .tbl td {
+	padding: .5rem .5rem;
+	border-bottom: 1px solid var(--line);
+	text-align: left;
+	vertical-align: middle;
+}
+.tbl thead th {
+	color: var(--pink-deep);
+	font-size: .78rem;
+	line-height: 1.25;
+	vertical-align: bottom;
+	background: var(--band);
+	border-bottom: 2px solid var(--line);
+}
+.tbl td:first-child {
+	white-space: nowrap;
+}
+.tbl .chip {
+	font-size: .7rem;
+	padding: .02rem .5rem;
+	margin-right: .35rem;
+}
+.tbl .sub {
+	font-size: .72rem;
+}
+.tbl th .sub {
+	font-size: .7rem;
+}
+.tbl tbody tr:hover td {
+	background: #fff3f8;
+}
+.tbl tfoot td {
+	font-weight: 800;
+	background: var(--band);
+	border: 0;
+}
+.tbl .num {
+	text-align: right;
+	white-space: nowrap;
+}
+.sub {
+	display: block;
+	color: var(--muted);
+	font-size: .78rem;
+	font-weight: 500;
+}
+.chip {
+	display: inline-block;
+	padding: .05rem .65rem;
+	border-radius: 999px;
+	font-size: .78rem;
+	font-weight: 700;
+	background: var(--band);
+	color: var(--pink-deep);
+	margin-right: .4rem;
+}
+.chip.aut {
+	background: var(--lilac);
+	color: #5e4a77;
+}
+.chip.max {
+	background: var(--pink-deep);
+	color: #fff;
+}
+.up {
+	color: var(--pink-deep);
+	font-weight: 800;
+}
+.dim {
+	color: var(--muted);
+}
+.tbl tr.exp {
+	cursor: pointer;
+}
+.tbl tr.exp:focus-visible {
+	outline: 3px solid var(--ring);
+	outline-offset: -3px;
+}
+.caret {
+	color: var(--pink-deep);
+}
+.tbl tr.detail td {
+	background: #fff7fa;
+	padding: .5rem 1rem 1rem 2.2rem;
+}
+.mini {
+	width: 100%;
+	max-width: 900px;
+	border-collapse: collapse;
+	font-size: .9rem;
+}
+.mini th, .mini td {
+	padding: .3rem .7rem;
+	border-bottom: 1px dashed var(--line);
+	text-align: right;
+	white-space: nowrap;
+}
+.mini th:first-child, .mini td:first-child {
+	text-align: left;
+}
+.mini th {
+	color: var(--pink-deep);
+	font-size: .8rem;
+}
+.mini tr.tot td {
+	font-weight: 800;
+	border-bottom: 0;
+}
+.note {
+	color: var(--muted);
+	font-size: .85rem;
+	margin: .6rem 0 0;
+}
+.app-footer {
+	padding: 1.25rem 0;
+	color: var(--muted);
+	font-size: .85rem;
+}
+</style>
+</head>
+<body>
+<header class="app-header">
+  <div class="wrap"><button id="logoBtn" class="logo-btn" type="button" aria-label="처음 화면으로 돌아가기" title="처음 화면으로">
+      <svg class="orb" viewBox="0 0 48 48" aria-hidden="true">
+        <defs><radialGradient id="orbG" cx="35%" cy="30%" r="80%"><stop offset="0" stop-color="#fff"/><stop offset=".22" stop-color="#fbd7e6"/><stop offset=".6" stop-color="#f28cb4"/><stop offset="1" stop-color="#b3407a"/></radialGradient></defs>
+        <circle cx="24" cy="24" r="22" fill="url(#orbG)"/>
+        <circle cx="24" cy="24" r="22" fill="none" stroke="#fff" stroke-opacity=".6" stroke-width="2"/>
+        <path d="M24 10l12 14-12 14-12-14z" fill="none" stroke="#fff" stroke-opacity=".55" stroke-width="2" stroke-linejoin="round"/>
+        <ellipse cx="17" cy="13" rx="7" ry="4" fill="#fff" fill-opacity=".7" transform="rotate(-30 17 13)"/>
+      </svg>
+    </button></div>
+  <svg class="wave" viewBox="0 0 1440 18" preserveAspectRatio="none" aria-hidden="true"><path d="M0 0h1440v6c-60 12-120 12-180 0s-120-12-180 0-120 12-180 0-120-12-180 0-120 12-180 0-120-12-180 0-120 12-180 0V0z" fill="currentColor"/></svg>
+</header>
+
+<main class="wrap">
+  <h1 class="page-title">메이플 심볼 조회하기</h1>
+  <p class="page-desc">캐릭터가 장착한 심볼로 지금 강화 가능한 레벨과 최대 레벨까지 필요한 성장치·메소를 계산합니다.</p>
+
+  <section class="key-panel">
+    <label for="apiKeyInput" class="key-label">넥슨 Open API 키</label>
+    <div class="input-group">
+      <input id="apiKeyInput" type="password" class="form-control" autocomplete="off" spellcheck="false" placeholder="발급받은 API 키를 붙여넣으세요">
+      <button id="toggleKeyBtn" type="button" class="btn">보기</button>
+      <button id="loadBtn" type="button" class="btn btn-maple"><span id="loadSpinner" class="spinner hidden"></span><span id="loadLabel">캐릭터 불러오기</span></button>
+    </div>
+    <label class="key-remember" for="rememberKey"><input id="rememberKey" type="checkbox">이 PC의 브라우저에 키 기억하기 (공용 PC에서는 체크하지 마세요)</label>
+    <p class="key-help">입력한 키는 이 브라우저에서 넥슨 서버로만 전달됩니다. <button id="demoBtn" type="button" class="link-btn">샘플 데이터로 먼저 보기</button></p>
+    <details id="pasteDetails">
+      <summary>키로 바로 불러오기가 안 될 때: 응답 JSON 붙여넣기</summary>
+      <p>openapi.nexon.com의 캐릭터 목록 조회(<code>/maplestory/v1/character/list</code>) 응답 JSON을 통째로 붙여넣으세요. 심볼 조회는 키 호출이 필요합니다.</p>
+      <textarea id="pasteInput" class="form-control" rows="4" spellcheck="false" placeholder='{"account_list":[ ... ]}'></textarea>
+      <p><button id="pasteBtn" type="button" class="btn btn-sm">붙여넣은 JSON으로 보기</button></p>
+    </details>
+  </section>
+
+  <div id="errorBox" class="alert alert-danger hidden" role="alert"></div>
+  <section id="emptyState" class="empty-state"><p><strong>아직 불러온 캐릭터가 없어요.</strong></p><p>API 키를 붙여넣고 &lsquo;캐릭터 불러오기&rsquo;를 눌러 주세요.</p></section>
+
+  <section id="resultSection" class="hidden">
+    <div id="demoNotice" class="alert hidden">샘플 데이터를 보여주고 있어요.</div>
+    <div class="toolbar"><h2 id="charTitle">캐릭터</h2></div>
+    <div id="charGrid" class="char-grid"></div>
+    <div id="detail"></div>
+  </section>
+</main>
+<footer class="app-footer"><div class="wrap">Data based on NEXON Open API</div></footer>
+
+<script>
+(() => {
+'use strict';
+const MIN_LEVEL = 200, STORAGE_KEY = 'sp.apiKey';
+const BASE = 'https://open.api.nexon.com/maplestory/v1/character/';
+const MSG = {
+  OPENAPI00002:'이 키로는 접근할 수 없어요. 메이플스토리용 키인지 확인해주세요.',
+  OPENAPI00005:'API 키가 올바르지 않아요. 키를 다시 복사해 붙여넣어 보세요.',
+  OPENAPI00007:'넥슨 호출 한도를 넘었어요. 잠시 후 다시 시도해주세요.',
+  OPENAPI00009:'넥슨 쪽 데이터가 아직 준비 중이에요. 잠시 후 다시 시도해주세요.',
+  OPENAPI00010:'게임 점검 중이에요. 점검이 끝난 뒤 다시 시도해주세요.',
+  OPENAPI00011:'넥슨 API 점검 중이에요. 잠시 후 다시 시도해주세요.'
+};
+
+const REG_ARC = ['소멸의 여로','츄츄 아일랜드','레헬른','아르카나','모라스','에스페라'];
+const ARC_C = [[5.6,61.6],[7,77],[8.4,92.4],[9.8,107.8],[11.2,123.2],[12.6,138.6]];
+const ARC_L1 = {0:670000, 5:1510000};
+const REG_AUT = ['세르니움','아르크스','오디움','도원경','아르테리아','카르시온'];
+const AUT_C = [[106.8,264],[123,300],[139.2,336],[155.4,372],[171.6,408],[187.8,444]];
+const fl = (x) => Math.floor(x + 1e-9);
+const TABLES = {};
+REG_ARC.forEach((r, i) => { TABLES['아케인심볼 : ' + r] = { kind:'arc', max:20,
+  req:(n) => n*n + 11, stat:(n, A) => A*(n+2), force:(n) => 10*(n+2), per:(A) => A,
+  cost:(n) => (n === 1 && ARC_L1[i]) ? ARC_L1[i] : fl(.07*n**3 + ARC_C[i][0]*n*n + .77*n + ARC_C[i][1]) * 10000 }; });
+REG_AUT.forEach((r, i) => { TABLES['어센틱심볼 : ' + r] = { kind:'aut', max:11,
+  req:(n) => 9*n*n + 20*n, stat:(n, A) => A*(2*n+3), force:(n) => 10*n, per:(A) => 2*A,
+  cost:(n) => fl(-5.4*n**3 + AUT_C[i][0]*n*n + AUT_C[i][1]*n) * 100000 }; });
+const tableOf = (name) => TABLES[name.replace(/\s*:\s*/, ' : ')];
+
+function calc(s, A) {
+  const t = tableOf(s.symbol_name);
+  if (!t) return null;
+  const lv = s.symbol_level, g = s.symbol_growth_count;
+  let L = lv, G = g, now = 0;
+  while (L < t.max && G >= t.req(L)) { G -= t.req(L); now += t.cost(L); L++; }
+  let needG = 0, needM = 0;
+  for (let n = lv; n < t.max; n++) { needG += t.req(n); needM += t.cost(n); }
+  return { t, lv, g, L, G, now, needG: Math.max(0, needG - g), needM,
+           req: lv < t.max ? t.req(lv) : 0, A,
+           st: (n) => t.stat(n, A), f: (n) => t.force(n),
+           curS: t.stat(lv, A), maxS: t.stat(t.max, A), curF: t.force(lv), maxF: t.force(t.max),
+           nowS: t.stat(L, A) - t.stat(lv, A), nowF: t.force(L) - t.force(lv),
+           restS: t.stat(t.max, A) - t.stat(lv, A), restF: t.force(t.max) - t.force(lv), perS: t.per(A) };
+}
+
+const $ = (id) => document.getElementById(id);
+const el = ['logoBtn','loadBtn','loadLabel','loadSpinner','apiKeyInput','toggleKeyBtn','rememberKey','demoBtn','pasteDetails','pasteInput','pasteBtn','errorBox','emptyState','resultSection','demoNotice','charTitle','charGrid','detail'].reduce((o, k) => (o[k] = $(k), o), {});
+let chars = [], apiKey = '', selected = -1, demo = false;
+
+const fmt = (n) => n.toLocaleString('ko-KR');
+const won = fmt;
+const ymd = (back) => new Date(Date.now() + 9*36e5 - back*864e5).toISOString().slice(0, 10);
+function node(tag, cls, text) { const e = document.createElement(tag); if (cls) e.className = cls; if (text !== undefined) e.textContent = text; return e; }
+function showError(m) { el.errorBox.textContent = m; el.errorBox.classList.remove('hidden'); }
+function hideError() { el.errorBox.classList.add('hidden'); }
+function readKey() { try { return localStorage.getItem(STORAGE_KEY) || ''; } catch (e) { return ''; } }
+function writeKey(k) { try { k ? localStorage.setItem(STORAGE_KEY, k) : localStorage.removeItem(STORAGE_KEY); } catch (e) {} }
+
+async function call(path, key) {
+  let res;
+  try { res = await fetch(BASE + path, { headers: { 'x-nxopen-api-key': key } }); }
+  catch (e) {
+    const err = new Error('넥슨 서버에서 응답을 받지 못했어요. 인터넷 연결을 확인해주세요. 계속 이렇게 나오면 브라우저가 이 파일에서의 직접 호출을 막은 것일 수 있어요.');
+    err.openPaste = true; throw err;
+  }
+  const text = await res.text();
+  if (!res.ok) {
+    const code = (text.match(/OPENAPI\d{5}/) || [])[0];
+    const err = new Error(code && MSG[code] ? `${MSG[code]} (${code})` : `넥슨 API 오류 (${res.status}) ${text.slice(0, 200)}`);
+    err.code = code; throw err;
+  }
+  try { return JSON.parse(text); } catch (e) { throw new Error('넥슨 응답을 해석하지 못했어요.'); }
+}
+
+function parseList(root) {
+  const out = [];
+  ((root && root.account_list) || []).forEach((a) => (a.character_list || []).forEach((c) => {
+    out.push({ ocid: c.ocid, name: c.character_name || '', world: c.world_name || '', job: c.character_class || '', level: Number(c.character_level) || 0, sym: undefined });
+  }));
+  return out;
+}
+
+async function fetchSymbols(c) {
+  for (const back of [1, 2]) {
+    try { const d = await call(`symbol-equipment?ocid=${encodeURIComponent(c.ocid)}&date=${ymd(back)}`, apiKey); return d.symbol || []; }
+    catch (e) { if (e.code !== 'OPENAPI00004' || back === 2) throw e; }
+  }
+}
+
+function showCharacters(list, isDemo) {
+  const eligible = [...list].sort((a, b) => b.level - a.level);
+  if (!eligible.length) throw new Error('캐릭터가 없어요.');
+  chars = eligible; selected = -1; demo = isDemo;
+  el.demoNotice.classList.toggle('hidden', !isDemo);
+  el.emptyState.classList.add('hidden'); el.resultSection.classList.remove('hidden');
+  el.charTitle.textContent = '캐릭터 목록';
+  el.detail.replaceChildren(node('div', 'empty-state', '위에서 캐릭터를 선택하면 심볼 정보를 불러옵니다.'));
+  renderGrid();
+}
+
+function renderGrid() {
+  el.charGrid.replaceChildren(...chars.map((c, i) => {
+    const b = node('button', 'btn char-btn' + (i === selected ? ' active' : ''));
+    b.type = 'button'; b.dataset.i = i;
+    b.append(node('span', '', c.name), node('small', '', c.job), node('small', '', `Lv.${c.level} · ${c.world}`));
+    b.title = `${c.name} / ${c.job} / Lv.${c.level} / ${c.world}`;
+    return b;
+  }));
+}
+
+function summaryCard(rows) {
+  const sum = (k) => rows.reduce((s, r) => s + r[k], 0);
+  const d = node('div', 'summary');
+  const left = node('div');
+  left.append(node('div', 'summary-label', '만렙까지 필요한 총 메소 (지금 강화 포함)'), node('div', 'big', won(sum('needM')) || '0'));
+  const side = node('dl', 'summary-side');
+  [['지금 강화 가능 메소', won(sum('now')) || '0'], ['지금 오를 수 있는 레벨', '+' + rows.reduce((s, r) => s + r.L - r.lv, 0)], ['지금 강화 시 증가', `스탯 +${fmt(sum('nowS'))} · 포스 +${fmt(sum('nowF'))}`], ['만렙까지 남은 증가', `스탯 +${fmt(sum('restS'))} · 포스 +${fmt(sum('restF'))}`]].forEach(([t, v]) => {
+    const w = node('div'); w.append(node('dt', '', t), node('dd', '', v)); side.append(w);
+  });
+  d.append(left, side); return d;
+}
+
+function stepsRow(r, tr) {
+  const d = node('tr', 'detail hidden'), td = node('td'), t = node('table', 'mini');
+  td.colSpan = 8;
+  const h = node('tr');
+  ['강화 단계', '필요 성장치', '강화 메소', '강화 후 남는 성장치', '스탯 증가', '포스 증가'].forEach((x) => h.append(node('th', '', x)));
+  t.append(h);
+  let G = r.g, sg = 0, sm = 0;
+  for (let n = r.lv; n < r.L; n++) {
+    const q = r.t.req(n), m = r.t.cost(n); G -= q; sg += q; sm += m;
+    const row = node('tr');
+    row.append(node('td', '', `Lv.${n} → Lv.${n + 1}`), node('td', '', fmt(q)), node('td', '', fmt(m)), node('td', '', fmt(G)),
+      node('td', '', `+${fmt(r.perS)} (→ ${fmt(r.st(n + 1))})`), node('td', '', `+10 (→ ${fmt(r.f(n + 1))})`));
+    t.append(row);
+  }
+  const tot = node('tr', 'tot');
+  tot.append(node('td', '', '합계'), node('td', '', fmt(sg)), node('td', '', fmt(sm)), node('td', '', fmt(G)), node('td', '', `+${fmt(r.nowS)}`), node('td', '', `+${fmt(r.nowF)}`));
+  t.append(tot); td.append(t); d.append(td);
+  const toggle = () => {
+    const open = !d.classList.toggle('hidden');
+    tr.setAttribute('aria-expanded', open); tr.querySelector('.caret').textContent = open ? '▾ ' : '▸ ';
+  };
+  tr.addEventListener('click', toggle);
+  tr.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); } });
+  return d;
+}
+
+function renderDetail(c) {
+  const box = el.detail; box.replaceChildren();
+  if (!c.sym.length) { box.append(node('div', 'empty-state', `${c.name}는 아직 장착한 심볼이 없어요.`)); return; }
+  const A = c.job === '제논' ? 66 : c.job === '데몬어벤져' ? 2100 : 100;
+  const statName = c.job === '제논' ? 'STR·DEX·LUK 각각' : c.job === '데몬어벤져' ? 'HP' : '주스탯';
+  const rows = [], unknown = [];
+  c.sym.forEach((s) => { const r = calc(s, A); r ? rows.push(Object.assign(r, { s })) : unknown.push(s.symbol_name); });
+  box.append(summaryCard(rows));
+
+  const wrap = node('div', 'table-scroll'), tbl = node('table', 'tbl');
+  const head = node('thead'), hr = node('tr');
+  ['심볼', '레벨', '스탯', '포스', '성장치 (보유/필요)', '지금 강화', '만렙까지 성장치', '만렙까지 메소'].forEach((h, i) => { const th = node('th', i > 1 ? 'num' : '', h); hr.append(th); });
+  head.append(hr); tbl.append(head);
+  const body = node('tbody');
+  rows.forEach((r) => {
+    const tr = node('tr'), aut = r.t.kind === 'aut', done = r.lv >= r.t.max;
+    const name = node('td'); name.append(node('span', 'chip' + (aut ? ' aut' : ''), aut ? '어센틱' : '아케인'), r.s.symbol_name.split(':')[1].trim());
+    const lv = node('td'); lv.append(`Lv.${r.lv}`); if (done) lv.append(' ', node('span', 'chip max', 'MAX'));
+    const gr = node('td', 'num', done ? '-' : `${fmt(r.g)} / ${fmt(r.req)}`);
+    const now = node('td', 'num');
+    if (r.L > r.lv) { now.append(node('span', 'up', `Lv.${r.lv} → Lv.${r.L}`), node('span', 'sub', `${won(r.now)} 메소`)); } else now.append(node('span', 'dim', done ? '-' : '강화 불가'));
+    const canUp = r.L > r.lv;
+    if (canUp) { tr.className = 'exp'; tr.tabIndex = 0; tr.setAttribute('aria-expanded', 'false'); name.prepend(node('span', 'caret', '▸ ')); }
+    const sc = node('td', 'num', fmt(r.curS));
+    const fc = node('td', 'num', fmt(r.curF));
+    tr.append(name, lv, sc, fc, gr, now, node('td', 'num', done ? '-' : fmt(r.needG)), node('td', 'num', done ? '-' : won(r.needM)));
+    body.append(tr);
+    if (canUp) body.append(stepsRow(r, tr));
+  });
+  tbl.append(body);
+  wrap.append(tbl); box.append(wrap);
+  box.append(node('p', 'note', `기준일 ${demo ? '(샘플)' : ymd(1)} · 레벨업 시 필요 성장치만큼 차감되고 남은 성장치는 이월된다고 계산합니다. 강화 가능한 심볼 행을 누르면 단계별 상세가 펼쳐집니다. 스탯은 ${c.job} 기준(${statName}) 성장표 값입니다.`));
+  if (unknown.length) box.append(node('p', 'note', `성장표에 없는 심볼은 계산에서 제외했어요: ${unknown.join(', ')}`));
+}
+
+async function selectChar(i) {
+  selected = i; renderGrid(); hideError();
+  const c = chars[i];
+  if (c.sym === undefined) {
+    el.detail.replaceChildren(node('div', 'empty-state', '심볼 정보를 불러오는 중...'));
+    try { c.sym = await fetchSymbols(c); }
+    catch (e) { if (selected === i) { el.detail.replaceChildren(); showError(e.message); } return; }
+  }
+  if (selected === i) renderDetail(c);
+}
+
+function setLoading(on) { el.loadBtn.disabled = el.demoBtn.disabled = el.pasteBtn.disabled = on; el.loadSpinner.classList.toggle('hidden', !on); el.loadLabel.textContent = on ? '불러오는 중...' : '캐릭터 불러오기'; }
+
+async function loadFromApi() {
+  const key = el.apiKeyInput.value.trim();
+  if (!key) { showError('API 키를 입력해 주세요.'); return; }
+  if (!/^[\x21-\x7E]+$/.test(key)) { showError('API 키에 한글이나 공백이 섞여 있어요. 복사한 키만 붙여넣었는지 확인해주세요.'); return; }
+  setLoading(true); hideError();
+  try { apiKey = key; showCharacters(parseList(await call('list', key)), false); writeKey(el.rememberKey.checked ? key : ''); }
+  catch (e) { showError(e.message); if (e.openPaste) el.pasteDetails.open = true; }
+  finally { setLoading(false); }
+}
+
+function demoData() {
+  const S = (n, a, l, g) => ({ symbol_name: (a ? '아케인심볼 : ' : '어센틱심볼 : ') + n, symbol_level: l, symbol_growth_count: g });
+  const sym = [...REG_ARC.map((n) => S(n, 1, 20, 0)), S('세르니움', 0, 11, 0), S('아르크스', 0, 8, 2745), S('오디움', 0, 7, 3326), S('도원경', 0, 7, 3326), S('아르테리아', 0, 6, 3770), S('카르시온', 0, 4, 2415)];
+  return [{ ocid: 'd1', name: '샘플윈드브레이커', world: '샘플월드', job: '윈드브레이커', level: 280, sym }, { ocid: 'd2', name: '샘플신규캐릭', world: '샘플월드', job: '비숍', level: 215, sym: [] },
+    { ocid: 'd3', name: '샘플제논', world: '샘플월드', job: '제논', level: 250, sym },
+    { ocid: 'd4', name: '샘플데벤', world: '샘플월드', job: '데몬어벤져', level: 240, sym }];
+}
+
+function loadFromPaste() {
+  hideError();
+  const text = el.pasteInput.value.trim();
+  try {
+    if (!text) throw new Error('붙여넣을 JSON이 비어 있어요.');
+    let root; try { root = JSON.parse(text); } catch (e) { throw new Error('JSON 형식이 올바르지 않아요. 응답 전체를 복사했는지 확인해주세요.'); }
+    apiKey = el.apiKeyInput.value.trim(); showCharacters(parseList(root), false);
+  } catch (e) { showError(e.message); }
+}
+
+function resetToStart() {
+  chars = []; selected = -1; hideError();
+  el.resultSection.classList.add('hidden'); el.emptyState.classList.remove('hidden');
+  window.scrollTo({ top: 0 }); el.apiKeyInput.focus();
+}
+
+const saved = readKey();
+if (saved) { el.apiKeyInput.value = saved; el.rememberKey.checked = true; }
+el.loadBtn.addEventListener('click', loadFromApi);
+el.demoBtn.addEventListener('click', () => { hideError(); showCharacters(demoData(), true); });
+el.pasteBtn.addEventListener('click', loadFromPaste);
+el.logoBtn.addEventListener('click', resetToStart);
+el.apiKeyInput.addEventListener('keydown', (ev) => { if (ev.key === 'Enter') loadFromApi(); });
+el.toggleKeyBtn.addEventListener('click', () => {
+  const show = el.apiKeyInput.type === 'password';
+  el.apiKeyInput.type = show ? 'text' : 'password'; el.toggleKeyBtn.textContent = show ? '숨기기' : '보기';
+});
+el.charGrid.addEventListener('click', (ev) => { const b = ev.target.closest('button[data-i]'); if (b) selectChar(Number(b.dataset.i)); });
+})();
+</script>
+</body>
+</html>
